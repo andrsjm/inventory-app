@@ -27,15 +27,18 @@ const App = () => {
       <div>
         <main>
           <BrowserRouter>
-          {!accessToken ? '' : <Sidebar />}
-            <Routes>
-              <Route path='/' element={accessToken ? <Dashboard /> : <LoginPage />} />
-              <Route path='/register' element={accessToken ? <Dashboard />  : <LoginPage />} />
-              <Route path='/user' element={accessToken ? <User />  : <LoginPage />} />
-              <Route path='/transaction' element={accessToken ? <Transaction />  : <LoginPage />} />
-              <Route path='/goods' element={accessToken ? <Goods />  : <LoginPage />} />
-              <Route path='/login' element={accessToken ? <Dashboard />  : <LoginPage />} />
-            </Routes>
+          {!accessToken ? 
+            '' : 
+            <Sidebar >
+              <Routes>
+                <Route path='/' element={accessToken ? <Dashboard /> : <LoginPage />} />
+                <Route path='/register' element={accessToken ? <Dashboard />  : <LoginPage />} />
+                <Route path='/user' element={accessToken ? <User />  : <LoginPage />} />
+                <Route path='/transaction' element={accessToken ? <Transaction />  : <LoginPage />} />
+                <Route path='/goods' element={accessToken ? <Goods />  : <LoginPage />} />
+                <Route path='/login' element={accessToken ? <Dashboard />  : <LoginPage />} />
+              </Routes>
+            </Sidebar>}
           </BrowserRouter>
         </main>
       </div>
