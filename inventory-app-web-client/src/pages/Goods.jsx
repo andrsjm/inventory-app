@@ -1,15 +1,15 @@
 import React from 'react';
-import Axios from 'axios';
+import { useApi } from "../context/ApiContext";
 
 const Goods = () => {
 
   const [goods, setGoods] = React.useState([]);
+  const api = useApi()
 
   React.useEffect(()=>{
     async function fetchData(){
       try{
-        const response = await Axios.get('http://10.10.101.25:3030/goods?offset=0&limit=5');
-        console.log(response);
+        const response = await api.get('/goods?offset=0&limit=8');
         setGoods(response.data.Data);
       } catch(error){
           console.error(error);
@@ -34,23 +34,26 @@ const Goods = () => {
     })
 
     return(
-      <div className="bg-green-100 p-4 border border-stone-800">
-        <table className="table-auto border border-stone-800">
-          <thead>
-            <tr className='border border-stone-600'>
-              <th className='py-3 px-6 text-left border-b border border-stone-600'>Id</th>
-              <th className='py-3 px-6 text-left border-b border border-stone-600'>Name</th>
-              <th className='py-3 px-6 text-left border-b border border-stone-600'>Category</th>
-              <th className='py-3 px-6 text-left border-b border border-stone-600'>Image</th>
-              <th className='py-3 px-6 text-left border-b border border-stone-600'>Unit</th>
-              <th className='py-3 px-6 text-left border-b border border-stone-600'>Price</th>
-              <th className='py-3 px-6 text-left border-b border border-stone-600'>Stock</th>
-            </tr>
-          </thead>
-          <tbody>
-            {goodsRow}
-          </tbody>
-        </table>
+      <div className="flex justify-center items-center h-screen bg-emerald-100 p-4">
+        <div>
+          <h1 className='text-center align-middle justify-center items-center text-3xl m-4'> <b>Goods!</b> </h1>
+          <table className="table-auto border border-stone-800">
+            <thead>
+              <tr className='border border-stone-600'>
+                <th className='py-3 px-6 text-left border-b border border-stone-600'>Id</th>
+                <th className='py-3 px-6 text-left border-b border border-stone-600'>Name</th>
+                <th className='py-3 px-6 text-left border-b border border-stone-600'>Category</th>
+                <th className='py-3 px-6 text-left border-b border border-stone-600'>Image</th>
+                <th className='py-3 px-6 text-left border-b border border-stone-600'>Unit</th>
+                <th className='py-3 px-6 text-left border-b border border-stone-600'>Price</th>
+                <th className='py-3 px-6 text-left border-b border border-stone-600'>Stock</th>
+              </tr>
+            </thead>
+            <tbody>
+              {goodsRow}
+            </tbody>
+          </table>
+        </div>
       </div>
     );
   }else{

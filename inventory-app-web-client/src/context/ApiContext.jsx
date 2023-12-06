@@ -6,7 +6,7 @@ const ApiContext = createContext();
 
 // Create an Axios instance with a base URL
 const api = axios.create({
-  baseURL: 'http://localhost:3030',
+  baseURL: 'http://10.10.101.25:3030',
 });
 
 // Create a provider component to wrap your app with
