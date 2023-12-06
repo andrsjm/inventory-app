@@ -1,10 +1,26 @@
-// eslint-disable-next-line no-unused-vars
 import React from 'react'
-import LoginPage from './LoginPage'
+import {BrowserRouter as Router, Routes, Route} from 'react-router-dom'
+import Sidebar from './component/Sidebar'
+import Dashboard from './pages/Dashboard'
+import User from './pages/User'
+import Transaction from './pages/Transaction'
+import Goods from './pages/Goods'
 
 const App = () => {
   return (
-    <LoginPage/>
+    <div className='flex flex-row'>
+      <Router>
+        <Sidebar />
+        <main>
+          <Routes>
+            <Route path='/' element={<Dashboard />} />
+            <Route path='/user' element={<User />} />
+            <Route path='/transaction' element={<Transaction />} />
+            <Route path='/goods' element={<Goods />} />
+          </Routes>
+        </main>
+      </Router>
+    </div>
   )
 }
 
