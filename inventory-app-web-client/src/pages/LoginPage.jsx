@@ -2,6 +2,7 @@ import { useState, useContext } from "react";
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext'
+import { useApi } from "../context/ApiContext";
 
 export default function LoginPage(){
     const navigate = useNavigate();
@@ -11,6 +12,9 @@ export default function LoginPage(){
         email: '',
         password: ''
     })
+    const [error, setError] = useState(false)
+
+    const api = useApi()
 
     // Handle Change State
     const handleChangeEmail = (e)=>{
@@ -22,12 +26,11 @@ export default function LoginPage(){
       
     async function handleLogin() {
         try {
-          const response = await axios.post('http://10.10.101.25:3030/user/login', {
+          const response = await api.post('/user/login', {
             email: loginData.email,
             password: loginData.password,
           });
     
-          console.log(response);
           const userData = response.data.Data;
     
           // Use the login function from AuthContext to update user data
@@ -36,7 +39,8 @@ export default function LoginPage(){
           // Redirect the user to the dashboard or any other page
           navigate('/');
         } catch (error) {
-          console.error(error);
+            setError(true)
+            console.error(error);
         }
       }
 
@@ -44,6 +48,8 @@ export default function LoginPage(){
         <div className="bg-gray-100 h-screen flex items-center justify-center">
             <div className="bg-white p-8 rounded-lg shadow-lg w-96">
                 <h2 className="text-2xl text-center font-semibold mb-4">Login</h2>
+
+                {error ? <h2 className="text-md text-center text-red-500">Email or password wrong</h2> : ''}
 
                 <form>
                 <div className="mb-4">

@@ -21,11 +21,10 @@ const RedirectToLogin = () => {
 
 const App = () => {
   const { accessToken } = useAuth();
-  console.log(accessToken);
 
   return (
       <div>
-        <main>
+        <main className='flex flex-row'>
           <BrowserRouter>
           {!accessToken ? '' : <Sidebar />}
             <Routes>
