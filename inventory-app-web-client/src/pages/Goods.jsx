@@ -2,14 +2,21 @@ import React from 'react';
 import { useApi } from "../context/ApiContext";
 
 const Goods = () => {
-
+  // ===== States =====
+  // State untuk menyimpan seluruh goods dari API.
   const [goods, setGoods] = React.useState([]);
-  const api = useApi()
+  // State untuk menyimpan offset untuk ke page selanjutnya.
+  const [offset, setOffset] = React.useState(0);
 
+  // ===== Axios API =====
+  const api = useApi();
+
+  // ===== useEffect =====
   React.useEffect(()=>{
+    //untuk mendapatkan data pertama kali saat page di load menggunakan API.
     async function fetchData(){
       try{
-        const response = await api.get('/goods?offset=0&limit=8');
+        const response = await api.get(`/goods?offset=${offset}&limit=8`);
         setGoods(response.data.Data);
       } catch(error){
           console.error(error);
@@ -36,7 +43,12 @@ const Goods = () => {
     return(
       <div className="flex justify-center items-center h-screen bg-emerald-100 p-4">
         <div>
-          <h1 className='text-center align-middle justify-center items-center text-3xl m-4'> <b>Goods!</b> </h1>
+          <div className='text-center align-middle justify-center items-center p-2'>
+            <h1 className='text-3xl p-1'> 
+              <b>Goods!</b>
+            </h1>
+            <button className="text-white bg-gradient-to-r from-yellow-400 to-green-400 hover:from-yellow-300 hover:to-green-300 hover:text-gray-700 py-2 px-4 rounded-md transition duration-300 ease-in-out"><b>Add New Item +</b></button>
+          </div>
           <table className="table-auto border border-stone-800">
             <thead>
               <tr className='border border-stone-600'>
