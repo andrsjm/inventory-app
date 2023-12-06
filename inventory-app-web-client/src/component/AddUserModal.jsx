@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { UploadButton } from "@bytescale/upload-widget-react";
 
 const AddUserModal = ({ open, onClose, onaAddUser }) => {
   const [newUser, setNewUser] = useState({
@@ -9,17 +10,35 @@ const AddUserModal = ({ open, onClose, onaAddUser }) => {
     password:''
   });
 
+  const [imageUrl, setImageUrl] = useState('')
+
+  const options = {
+    apiKey: "public_FW25bnrvTibtnimkEu7Yx7fiSKdv", // This is your API key.
+    maxFileCount: 1
+  };
+
+  const handleImage = (files) => {
+    const fileUrl = files.map((x) => x.fileUrl).join('\n');
+    setImageUrl(fileUrl);
+  };
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setNewUser((prevContact) => ({
-      ...prevContact,
+    setNewUser((prevUser) => ({
+      ...prevUser,
       [name]: value,
     }));
   };
 
   const handleAddUser = () => {
-    onaAddUser(newUser)
-    console.log(first)
+    const user = {
+        type: newUser.type,
+        name: newUser.name,
+        image:imageUrl,
+        email:newUser.email,
+        password:newUser.password
+    }
+    onaAddUser(user)
   };
 
   if (!open) {
@@ -69,14 +88,16 @@ const AddUserModal = ({ open, onClose, onaAddUser }) => {
         </div>
 
         <div className="mb-4">
-          <input
-            type="text"
-            name="image"
-            placeholder="Image"
-            value={newUser.image}
-            onChange={handleInputChange}
-            className="w-full border rounded-md py-2 px-3"
-          />
+          {!imageUrl ? <UploadButton options={options} onComplete={handleImage}>
+            {({onClick}) =>
+                <button onClick={onClick}>
+                    Upload a file...
+                </button>
+            }
+          </UploadButton>
+          :
+          <h1>Image Uploaded</h1>
+          }
         </div>
 
         <div className="mb-4">

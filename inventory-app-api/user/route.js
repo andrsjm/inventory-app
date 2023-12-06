@@ -5,7 +5,7 @@ import constant from '../constant/constant.js'
 
 const route = express.Router()
 
-route.post('/', handler.addUser)
+route.post('/', middleware([constant.SUPER_ADMIN]) ,handler.addUser)
 route.post('/login', handler.login)
 route.get('/', handler.getAll)
 
