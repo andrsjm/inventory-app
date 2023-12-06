@@ -21,6 +21,7 @@ const login = async (req, res) => {
     
     const passwordMatch = await comparedPassword(userEntity.password, result.result.password)
     if (!passwordMatch) return failedResponse(res, "Email or Password wrong")
+    
 
     delete result.result.password
 
