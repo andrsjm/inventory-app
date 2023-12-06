@@ -1,4 +1,5 @@
 import { comparedPassword } from '../util/bcrypt.js'
+import { getJWTKey } from '../util/jwt.js'
 import { failedResponse, successResponse } from '../util/response.js'
 import  parser  from './parser.js'
 import repo from './repository.js'
@@ -22,6 +23,9 @@ const login = async (req, res) => {
     if (!passwordMatch) return failedResponse(res, "Email or Password wrong")
 
     delete result.result.password
+
+    const jwtTToken = getJWTKey(result.result)
+    result.result['accessToken'] = jwtTToken
     
     return successResponse(res, result.result)
 }
