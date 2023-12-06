@@ -1,7 +1,11 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext'
 
 export default function LoginPage(){
+    const navigate = useNavigate();
+    const { login } = useAuth();
 
     const [loginData, setLoginData] = useState({
         email: '',
@@ -16,17 +20,25 @@ export default function LoginPage(){
         setLoginData({ ...loginData, password: e.target.value });
     }
       
-    async function handleLogin(){
-        try{
-            console.log(loginData);
-            // const response = await axios.post('endpoint', {
-            //     email:document.getElementById('email').nodeValue,
-            //     password:document.getElementById('password').nodeValue
-            // })
-        }catch{
-
+    async function handleLogin() {
+        try {
+          const response = await axios.post('http://10.10.101.25:3030/user/login', {
+            email: loginData.email,
+            password: loginData.password,
+          });
+    
+          console.log(response);
+          const userData = response.data.Data;
+    
+          // Use the login function from AuthContext to update user data
+          login(userData.accessToken, userData.username);
+    
+          // Redirect the user to the dashboard or any other page
+          navigate('/');
+        } catch (error) {
+          console.error(error);
         }
-    }
+      }
 
     return(
         <div className="bg-gray-100 h-screen flex items-center justify-center">
